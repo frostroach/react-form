@@ -1,25 +1,44 @@
 import React from "react";
 
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
+import { FormControlLabel, Switch, TextField } from "@mui/material";
 
 const SignupForm: React.FC = () => {
   return (
     <form>
-      <label>Nome</label>
-      <input type="text" />
+      <TextField
+        id="name"
+        label="Nome"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+      />
 
-      <label>Sobrenome</label>
-      <input type="text" />
+      <TextField
+        id="surname"
+        label="Sobrenome"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+      />
 
-      <label>CPF</label>
-      <input type="text" />
+      <TextField
+        id="cpf"
+        label="Cpf"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+      />
 
-      <label>Promoções</label>
-      <input type="checkbox" />
+      <FormControlLabel
+        label="Promoções"
+        control={<Switch defaultChecked name="sales" color="primary" />}
+      />
 
-      <label>Novidades</label>
-      <input type="checkbox" />
+      <FormControlLabel
+        label="Novidades"
+        control={<Switch defaultChecked name="newsletter" color="primary" />}
+      />
 
       <Button variant="contained" color="primary">
         Cadastrar
