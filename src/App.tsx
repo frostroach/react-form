@@ -13,7 +13,11 @@ function App() {
       <Typography variant="h3" component="h1" align="center">
         Formulário de cadastro
       </Typography>
-      <SignupForm />
+      <SignupForm
+        onSubmitForm={(data) => {
+          console.log("app", data);
+        }}
+      />
     </Container>
   );
 }
