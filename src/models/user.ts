@@ -1,3 +1,12 @@
+export type User = {
+  name: string;
+  surname: string;
+  cpf: string;
+  id: string;
+  sales: boolean;
+  newsletter: boolean;
+};
+
 export type UserForm = {
   name: string;
   surname: string;
