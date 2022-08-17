@@ -9,6 +9,8 @@ import {
   TextField,
 } from "@mui/material";
 
+import { uuid } from "uuidv4";
+
 import { UserErrorProps, UserForm, UserFormErrors } from "../../models/user";
 
 import isCPF from "../../utils/validators/isCpf";
@@ -100,6 +102,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmitForm }) => {
       name,
       surname,
       cpf,
+      id: uuid(),
       sales,
       newsletter,
     };
