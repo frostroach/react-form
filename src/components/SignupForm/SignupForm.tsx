@@ -9,16 +9,16 @@ import {
   TextField,
 } from "@mui/material";
 
-import { uuid } from "uuidv4";
+import { v4 as uuidV4 } from "uuid";
 
-import { UserErrorProps, UserForm, UserFormErrors } from "../../models/user";
+import { User, UserErrorProps, UserFormErrors } from "../../models/user";
 
 import isCPF from "../../utils/validators/isCpf";
 import formatToCPF from "../../utils/formatters/formatToCPF";
 import { charactersCheck } from "../../utils/validators/isOnlyLetters";
 
 type SignupFormProps = {
-  onSubmitForm: (data: UserForm) => void;
+  onSubmitForm: (data: User) => void;
 };
 
 const SignupForm: React.FC<SignupFormProps> = ({ onSubmitForm }) => {
@@ -36,6 +36,12 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmitForm }) => {
 
   const [errors, setErrors] = useState<UserFormErrors>(defaultUserErrorsState);
   const [hasErrors, setHasErrors] = useState(false);
+
+  const clearFields = (): void => {
+    setName("");
+    setSurname("");
+    setCpf("");
+  };
 
   const handleNameField = (
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
@@ -98,21 +104,24 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmitForm }) => {
       handleErrorModal();
       return;
     }
+
     const data = {
       name,
       surname,
       cpf,
-      id: uuid(),
+      id: uuidV4(),
       sales,
       newsletter,
     };
     onSubmitForm(data);
+    clearFields();
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <TextField
         id="name"
+        value={name}
         onChange={({ target }) => {
           const tmpName = target.value;
           setName(tmpName);
@@ -130,6 +139,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmitForm }) => {
         id="surname"
         label="Sobrenome"
         variant="outlined"
+        value={surname}
         onChange={({ target }) => {
           const tmpSurname = target.value;
           setSurname(tmpSurname);
@@ -155,6 +165,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmitForm }) => {
         variant="outlined"
         fullWidth
         margin="normal"
+        inputProps={{ maxLength: 14 }}
       />
 
       <FormControlLabel
