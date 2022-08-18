@@ -1,35 +1,18 @@
-import { Container, Typography } from "@mui/material";
 import React from "react";
-import User from "../../components/User";
+import { UsersStyled as Styled } from "./styled";
+
+import { Container, Typography } from "@mui/material";
+
 import { User as UserModel } from "../../models/user";
 
+import User from "../../components/User";
+
+import { PersonAdd as AddIcon } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import { useUsers } from "../../hooks/users";
+
 const Users: React.FC = () => {
-  const users: UserModel[] = [
-    {
-      name: "Vitor",
-      surname: "Cesar",
-      cpf: "12345678912",
-      id: "231321",
-      sales: true,
-      newsletter: true,
-    },
-    {
-      name: "Cleber",
-      surname: "Neber",
-      cpf: "12345678912",
-      id: "2331321",
-      sales: false,
-      newsletter: true,
-    },
-    {
-      name: "Craudio",
-      surname: "Creiton",
-      cpf: "12345678912",
-      id: "233321321",
-      sales: false,
-      newsletter: true,
-    },
-  ];
+  const { users } = useUsers();
 
   const handleUserEdit = (userId: string): void => {
     console.log("edit user", userId);
@@ -41,11 +24,25 @@ const Users: React.FC = () => {
 
   return (
     <Container maxWidth="sm">
-      <Typography variant="h4" component="h2" align="center" marginBottom={2}>
-        Usuário cadastrados
-      </Typography>
+      <Styled.HeaderContainer>
+        <div></div>
+        <Typography
+          variant="subtitle1"
+          component="h4"
+          align="center"
+          alignSelf="center"
+        >
+          Usuário cadastrados
+        </Typography>
 
-      {users.map((user) => (
+        <Link to={"/signup"}>
+          <Styled.AddButton color="primary" variant="contained">
+            <AddIcon sx={{ color: "#fff" }} />
+          </Styled.AddButton>
+        </Link>
+      </Styled.HeaderContainer>
+
+      {users?.map((user) => (
         <User
           data={user}
           onPressDelete={handleUserDelete}

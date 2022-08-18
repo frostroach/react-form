@@ -1,10 +1,6 @@
 import styled from "styled-components";
-import { Link as ReactLink } from "react-router-dom";
-import { Button, Grid } from "@mui/material";
 
-const Link = styled(ReactLink)`
-  text-decoration: none;
-`;
+import { Button, Grid } from "@mui/material";
 
 const HeaderContainer = styled(Grid)`
   align-content: center;
@@ -15,11 +11,11 @@ const HeaderContainer = styled(Grid)`
   justify-content: space-between;
 `;
 
-const ReturnButton = styled(Button).attrs({
+const AddButton = styled(Button).attrs({
   sx: {
     minWidth: 0,
     padding: "4px 10px",
   },
 })``;
 
-export const SignupStyled = { ReturnButton, HeaderContainer, Link };
+export const UsersStyled = { AddButton, HeaderContainer };
