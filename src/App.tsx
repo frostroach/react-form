@@ -6,9 +6,14 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 import Router from "./routes";
+import AppProvider from "./hooks";
 
 function App() {
-  return <Router />;
+  return (
+    <AppProvider>
+      <Router />;
+    </AppProvider>
+  );
 }
 
 export default App;
