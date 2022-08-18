@@ -1,7 +1,9 @@
 import React from "react";
-import { Typography, Button } from "@mui/material";
 import { UserStyled as Styled } from "./styled";
+
+import { Typography } from "@mui/material";
 import { Edit as EditIcon, Remove as RemoveIcon } from "@mui/icons-material";
+
 import { User as UserModel } from "../../models/user";
 
 type UserProps = {
@@ -18,20 +20,20 @@ const User: React.FC<UserProps> = ({ data, onPressDelete, onPressEdit }) => {
           Nome: {data.name} {data.surname}
         </Typography>
         <Styled.ButtonsWrapper>
-          <Button
+          <Styled.UserButton
             color="success"
             variant="contained"
             onClick={() => onPressEdit(data.id)}
           >
-            <EditIcon sx={{ color: "#ccc" }} />
-          </Button>
-          <Button
+            <EditIcon sx={{ color: "#fff" }} />
+          </Styled.UserButton>
+          <Styled.UserButton
             color="error"
             variant="contained"
             onClick={() => onPressDelete(data.id)}
           >
-            <RemoveIcon sx={{ color: "#ccc" }} />
-          </Button>
+            <RemoveIcon sx={{ color: "#fff" }} />
+          </Styled.UserButton>
         </Styled.ButtonsWrapper>
       </Styled.UserWrapper>
     </Styled.UserContainer>

@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
 import styled from "styled-components";
 
 const UserContainer = styled(Container)``;
@@ -14,9 +14,21 @@ const UserWrapper = styled(Box)`
 `;
 
 const ButtonsWrapper = styled(Box)`
-  width: 30%;
+  width: 25%;
   display: flex;
   justify-content: space-between;
 `;
 
-export const UserStyled = { ButtonsWrapper, UserContainer, UserWrapper };
+const UserButton = styled(Button).attrs({
+  sx: {
+    minWidth: 0,
+    padding: "3px 10px",
+  },
+})``;
+
+export const UserStyled = {
+  ButtonsWrapper,
+  UserButton,
+  UserContainer,
+  UserWrapper,
+};
