@@ -3,12 +3,11 @@ import styled from "styled-components";
 import { Button, Grid } from "@mui/material";
 
 const HeaderContainer = styled(Grid)`
-  align-content: center;
+  align-items: center;
   display: flex;
   flex-direction: row;
   padding: 0 1.5em;
   margin-bottom: 1em;
-  justify-content: space-between;
 `;
 
 const AddButton = styled(Button).attrs({
