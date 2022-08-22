@@ -1,8 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 
-import { Button, Container, Grid, Typography } from "@mui/material";
-import { ArrowBack } from "@mui/icons-material";
+import {
+  Alert,
+  Button,
+  Container,
+  Grid,
+  Snackbar,
+  Typography,
+} from "@mui/material";
 
 import { SignupStyled as Styled } from "./styles";
 
@@ -14,28 +19,38 @@ import { useUsers } from "../../hooks/users";
 const Signup: React.FC = () => {
   const { addUser } = useUsers();
 
-  const handleAddNewUser = (user: User): void => {
-    addUser(user);
+  const [hasErrors, setHasErrors] = useState(false);
+
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  const [signupSuccess, setSignupSuccess] = useState(false);
+
+  const handleErrorModal = (): void => {
+    setHasErrors(!hasErrors);
+  };
+
+  const handleSuccessModal = (): void => {
+    setSignupSuccess(!signupSuccess);
+  };
+
+  const handleAddNewUser = async (user: User): Promise<void> => {
+    try {
+      await addUser(user);
+      handleSuccessModal();
+    } catch (err: any) {
+      handleErrorModal();
+      setErrorMsg(err.message);
+      setTimeout(() => {
+        setErrorMsg("");
+      }, 5000);
+    }
   };
 
   return (
     <Container maxWidth="sm">
-      <Styled.HeaderContainer>
-        <Link to={"/"}>
-          <Styled.ReturnButton color="primary" variant="contained">
-            <ArrowBack sx={{ color: "#fff" }} />
-          </Styled.ReturnButton>
-        </Link>
-        <Typography
-          variant="h6"
-          component="h1"
-          align="center"
-          alignSelf="center"
-        >
-          Formulário de cadastro
-        </Typography>
-        <div></div>
-      </Styled.HeaderContainer>
+      <Typography variant="h6" component="h1" align="center" alignSelf="center">
+        Formulário de cadastro
+      </Typography>
       <SignupForm
         onSubmitForm={(data) => {
           handleAddNewUser(data);
@@ -48,6 +63,36 @@ const Signup: React.FC = () => {
           </Button>
         </Styled.Link>
       </Grid>
+
+      <Snackbar
+        open={hasErrors}
+        autoHideDuration={3000}
+        onClose={handleErrorModal}
+      >
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
+          variant="filled"
+          onClose={handleErrorModal}
+        >
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={signupSuccess}
+        autoHideDuration={3000}
+        onClose={handleSuccessModal}
+      >
+        <Alert
+          severity="success"
+          sx={{ width: "100%" }}
+          variant="filled"
+          onClose={handleSuccessModal}
+        >
+          Usuário cadastrado!
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
