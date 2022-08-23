@@ -3,15 +3,22 @@ import React from "react";
 import { Container, Typography } from "@mui/material";
 
 import User from "../../components/User";
+import { User as UserModel } from "../../models/user";
 
 import { useUsers } from "../../hooks/users";
+import { useNavigate } from "react-router-dom";
 
 const Users: React.FC = () => {
   const { users, deleteUser } = useUsers();
+  const navigate = useNavigate();
 
-  // const handleUserEdit = (userId: string): void => {
-  //   console.log("edit user", userId);
-  // };
+  const handleUserEdit = (user: UserModel): void => {
+    navigate("/signup", {
+      state: {
+        userData: user,
+      },
+    });
+  };
 
   const handleUserDelete = (userId: string): void => {
     deleteUser(userId);
@@ -33,7 +40,8 @@ const Users: React.FC = () => {
         <User
           data={user}
           onPressDelete={handleUserDelete}
-          //onPressEdit={handleUserEdit}
+          onPressEdit={handleUserEdit}
+          key={user.id}
         />
       ))}
     </Container>

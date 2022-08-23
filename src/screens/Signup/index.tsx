@@ -15,9 +15,27 @@ import SignupForm from "../../components/SignupForm/SignupForm";
 
 import { User } from "../../models/user";
 import { useUsers } from "../../hooks/users";
+import { useLocation } from "react-router-dom";
+import formatToCPF from "../../utils/formatters/formatToCPF";
+
+type StateProps = {
+  userData?: User;
+};
 
 const Signup: React.FC = () => {
-  const { addUser } = useUsers();
+  const { addUser, editUser } = useUsers();
+
+  let userInfo: User | undefined;
+
+  const location = useLocation();
+
+  const state = location?.state as StateProps;
+  if (state) {
+    const { userData } = state;
+    if (userData) {
+      userInfo = { ...userData, cpf: formatToCPF(userData.cpf) };
+    }
+  }
 
   const [hasErrors, setHasErrors] = useState(false);
 
@@ -35,7 +53,11 @@ const Signup: React.FC = () => {
 
   const handleAddNewUser = async (user: User): Promise<void> => {
     try {
-      await addUser(user);
+      if (userInfo) {
+        await editUser(user);
+      } else {
+        await addUser(user);
+      }
       handleSuccessModal();
     } catch (err: any) {
       handleErrorModal();
@@ -55,6 +77,7 @@ const Signup: React.FC = () => {
         onSubmitForm={(data) => {
           handleAddNewUser(data);
         }}
+        userData={userInfo}
       />
       <Grid container justifyContent="center" marginTop={5}>
         <Styled.Link to="/">
@@ -90,7 +113,7 @@ const Signup: React.FC = () => {
           variant="filled"
           onClose={handleSuccessModal}
         >
-          Usuário cadastrado!
+          Usuário {userInfo ? "editado" : "cadastrado"}!
         </Alert>
       </Snackbar>
     </Container>

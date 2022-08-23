@@ -19,20 +19,25 @@ import { charactersCheck } from "../../utils/validators/isOnlyLetters";
 
 type SignupFormProps = {
   onSubmitForm: (data: User) => void;
+  userData?: User;
 };
 
-const SignupForm: React.FC<SignupFormProps> = ({ onSubmitForm }) => {
+const SignupForm: React.FC<SignupFormProps> = ({ onSubmitForm, userData }) => {
   const defaultUserErrorsState = {
     cpf: { isValid: true, message: "" },
     name: { isValid: true, message: "" },
     surname: { isValid: true, message: "" },
   };
 
-  const [name, setName] = useState<string>("");
-  const [surname, setSurname] = useState<string>("");
-  const [cpf, setCpf] = useState<string>("");
-  const [sales, setSales] = useState(true);
-  const [newsletter, setNewsletter] = useState(true);
+  const [name, setName] = useState<string>(userData ? userData.name : "");
+  const [surname, setSurname] = useState<string>(
+    userData ? userData.surname : ""
+  );
+  const [cpf, setCpf] = useState<string>(userData ? userData.cpf : "");
+  const [sales, setSales] = useState(userData ? userData.sales : true);
+  const [newsletter, setNewsletter] = useState(
+    userData ? userData.newsletter : true
+  );
 
   const [errors, setErrors] = useState<UserFormErrors>(defaultUserErrorsState);
   const [hasErrors, setHasErrors] = useState(false);
@@ -108,8 +113,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmitForm }) => {
     const data = {
       name,
       surname,
-      cpf,
-      id: uuidV4(),
+      cpf: cpf.replace(/\D/g, ""),
+      id: userData ? userData.id : uuidV4(),
       sales,
       newsletter,
     };
@@ -193,7 +198,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmitForm }) => {
       />
 
       <Button variant="contained" color="primary" type="submit">
-        Cadastrar
+        {userData ? "Editar" : "Cadastrar"}
       </Button>
 
       <Snackbar
