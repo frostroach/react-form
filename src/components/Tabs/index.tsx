@@ -1,6 +1,6 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, Tab, Box, Grid } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function a11yProps(index: number) {
   return {
@@ -10,7 +10,16 @@ function a11yProps(index: number) {
 }
 
 export default function BasicTabs() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname.includes("signup")) {
+      setValue(1);
+    } else {
+      setValue(0);
+    }
+  }, [location]);
 
   const handleChange = (newValue: number) => {
     setValue(newValue);

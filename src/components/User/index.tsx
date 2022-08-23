@@ -9,10 +9,10 @@ import { User as UserModel } from "../../models/user";
 type UserProps = {
   data: UserModel;
   onPressDelete: (id: string) => void;
-  //onPressEdit: (id: string) => void;
+  onPressEdit: (user: UserModel) => void;
 };
 
-const User: React.FC<UserProps> = ({ data, onPressDelete }) => {
+const User: React.FC<UserProps> = ({ data, onPressDelete, onPressEdit }) => {
   return (
     <Styled.UserContainer maxWidth="sm">
       <Styled.UserWrapper>
@@ -20,13 +20,13 @@ const User: React.FC<UserProps> = ({ data, onPressDelete }) => {
           Nome: {data.name} {data.surname}
         </Typography>
         <Styled.ButtonsWrapper>
-          {/* <Styled.UserButton
+          <Styled.UserButton
             color="success"
             variant="contained"
-            onClick={() => onPressEdit(data.id)}
+            onClick={() => onPressEdit(data)}
           >
             <EditIcon sx={{ color: "#fff" }} />
-          </Styled.UserButton> */}
+          </Styled.UserButton>
           <div />
           <Styled.UserButton
             color="error"
