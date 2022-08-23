@@ -4,6 +4,7 @@ import { User } from "../models/user";
 type UserProps = {
   addUser: (userData: User) => void;
   deleteUser: (userId: string) => void;
+  editUser: (userData: User) => void;
   users: User[];
 };
 
@@ -25,14 +26,28 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     },
   ]);
 
+  const findUser = (userData: User): boolean => {
+    const userExist = users.find((user) => user.cpf === userData.cpf);
+    return userExist ? true : false;
+  };
+
+  const editUser = async (userData: User): Promise<void> => {
+    try {
+      const updatedUsers = users.filter((user) => user.id !== userData.id);
+      updatedUsers.push(userData);
+      setUsers(updatedUsers);
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
+
   const addUser = async (userData: User): Promise<void> => {
     try {
-      const findUser = users.find((user) => user.cpf === userData.cpf);
-      if (findUser) {
+      const checkUser = findUser(userData);
+      if (checkUser === true) {
         // eslint-disable-next-line no-throw-literal
         throw "Há um usuário com este CPF!";
-      }
-      if (!findUser) {
+      } else {
         setUsers([...users, userData]);
       }
     } catch (err: any) {
@@ -46,7 +61,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ users, addUser, deleteUser }}>
+    <UserContext.Provider value={{ users, addUser, deleteUser, editUser }}>
       {children}
     </UserContext.Provider>
   );
